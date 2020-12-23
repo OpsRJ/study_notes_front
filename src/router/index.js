@@ -11,6 +11,18 @@ const routes = [
     component: Login
   },
   {
+    path: '/logout',
+    name: 'Logout',
+    beforeEnter: (to, from, next) => {
+      if (!_.isNil(localStorage.getItem('token'))) {
+        localStorage.clear();
+      }
+
+      next({name: 'Login'});
+    },
+    component: Login
+  },
+  {
     path: '/protected/home',
     name: 'Home',
     //beforeEnter: guard,

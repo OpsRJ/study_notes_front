@@ -7,6 +7,7 @@
           <li><a href="sass.html">Sass</a></li>
           <li><a href="badges.html">Components</a></li>
           <li><router-link to="/protected/home">Logado</router-link></li>
+          <li><router-link to="/logout">Logout</router-link></li>
         </ul>
       </div>
     </nav>
