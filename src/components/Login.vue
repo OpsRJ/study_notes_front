@@ -59,8 +59,7 @@
 <script>
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import * as _ from 'lodash';
-import Api from '@/modules/api'
+import Service from '@/modules/service';
 
 const DO_LOGIN_ENDPOINT = "/login";
 
@@ -73,16 +72,15 @@ export default {
         password: ''
     });
 
-    async function doLogin() {
-       let data = await Api.post(DO_LOGIN_ENDPOINT, loginData);
-
-       if (!_.isNil(data)) {
-         console.log(data);
+    function doLogin() {
+      Service.post(DO_LOGIN_ENDPOINT, loginData, (code, data) => {
+        if (code === 200) {
           localStorage.setItem('nickname', data.nickName);
           localStorage.setItem('token', data.token);
 
           route.push('/protected/home')
-        } 
+        }
+      }); 
     }
 
     return {

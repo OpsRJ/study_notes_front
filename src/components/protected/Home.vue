@@ -1,5 +1,5 @@
 <template>
-    <h5 class="center-align">.: Logado :.</h5>
+    <h6 class="right-align"> Olá  {{ loggedUserName }}!</h6>
 
     <br/>
 
@@ -7,33 +7,23 @@
         <thead>
           <tr>
               <th>Name</th>
-              <th>Item Name</th>
-              <th>Item Price</th>
+              <th>Nick Name</th>
+              <th>IEmail</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
-          </tr>
-          <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
-          </tr>
-          <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.fullName }}</td>
+            <td>{{ user.nickName }}</td>
+            <td>{{ user.email }}</td>
           </tr>
         </tbody>
     </table>
 </template>
 
 <script>
-import Api from '@/modules/api'
+import Service from '@/modules/service'
 import { onMounted, ref } from 'vue';
 
 export default {
@@ -41,8 +31,11 @@ export default {
         const users = ref();
 
         async function getUsers() {
-            var result = await Api.get('/user/');
-            users.value = result;
+            Service.get('/user', (code, data) => {
+              if (code == 200) {
+                users.value = data;
+              }
+            });
         }
 
         onMounted(() => {
